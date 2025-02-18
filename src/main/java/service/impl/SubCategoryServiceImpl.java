@@ -10,6 +10,7 @@ import entities.Subcategory;
 import jakarta.persistence.Entity;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import repositories.CategoryRepo;
 import repositories.SubcategoryRepo;
 import service.SubCategoryService;
 
@@ -19,9 +20,11 @@ import java.util.List;
 @Service
 public class SubCategoryServiceImpl implements SubCategoryService {
     private final SubcategoryRepo subcategoryRepo;
+    private final CategoryRepo categoryRepo;
 
-    public SubCategoryServiceImpl(SubcategoryRepo subcategoryRepo) {
+    public SubCategoryServiceImpl(SubcategoryRepo subcategoryRepo, CategoryRepo categoryRepo) {
         this.subcategoryRepo = subcategoryRepo;
+        this.categoryRepo = categoryRepo;
     }
 
     @Override
@@ -102,5 +105,26 @@ public class SubCategoryServiceImpl implements SubCategoryService {
         }
         subcategoryRepo.delete(subcategory);
         return new SimpleResponse("the subcategory has been successfully deleted", HttpStatus.NO_CONTENT);
+    }
+
+    @Override
+    public List<SubCategoryResponse> getSubCategories(Long categoryId) {
+        Category category = categoryRepo.findById(categoryId).orElseThrow(()->new RuntimeException("the Category doesn't exist"));
+        List<Subcategory>subcategoryList = category.getSubcategories();
+
+        List<SubCategoryResponse> subCategoryResponseList = new ArrayList<>();
+
+
+        for (Subcategory subcategory : subcategoryList) {
+
+            SubCategoryResponse subCategoryResponse = new SubCategoryResponse();
+
+            subCategoryResponse.setId(subcategory.getId());
+            subCategoryResponse.setName(subcategory.getName());
+
+            subCategoryResponseList.add(subCategoryResponse);
+        }
+
+        return subCategoryResponseList;
     }
 }
