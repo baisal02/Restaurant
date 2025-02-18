@@ -87,6 +87,7 @@ public class SubCategoryServiceImpl implements SubCategoryService {
 
         //breaking relations before deleting
         Category category = subcategory.getCategory();
+
         if (category != null) {
             category.getSubcategories().remove(subcategory);
             subcategory.setCategory(null);

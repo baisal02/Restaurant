@@ -2,13 +2,77 @@ package dto;
 
 import entities.enums.Role;
 
+import java.time.LocalDate;
+import java.util.List;
+
 public class UserResponse {
     private Long id;
     private String firstName;
     private String lastName;
+    private LocalDate birthday;
     private String email;
+    private String password;
     private String phoneNumber;
     private Role role;
+    private int experience;
+
+    public UserResponse(Long id, String firstName, String lastName, LocalDate birthday, String email, String phoneNumber, Role role, int experience) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthday = birthday;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.role = role;
+        this.experience = experience;
+    }
+
+    public int getExperience() {
+        return experience;
+    }
+
+    public void setExperience(int experience) {
+        this.experience = experience;
+    }
+
+    private List<ChequeResponse>chequeResponses;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+
+    public LocalDate getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(LocalDate birthday) {
+        this.birthday = birthday;
+    }
+
+
+
+    public UserResponse(Long id, String firstName, String lastName, String email, String phoneNumber, Role role, List<ChequeResponse> chequeResponses) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.role = role;
+        this.chequeResponses = chequeResponses;
+    }
+
+    public List<ChequeResponse> getChequeResponses() {
+        return chequeResponses;
+    }
+
+    public void setChequeResponses(List<ChequeResponse> chequeResponses) {
+        this.chequeResponses = chequeResponses;
+    }
 
     public UserResponse(Long id, String firstName, String lastName, String email, String phoneNumber, Role role) {
         this.id = id;

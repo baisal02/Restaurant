@@ -5,12 +5,15 @@ import dto.CategoryResponse;
 import dto.SimpleResponse;
 import dto.SubCategoryRequest;
 import entities.Category;
+import entities.MenuItem;
 import entities.Subcategory;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import repositories.CategoryRepo;
+import repositories.MenuItemRepo;
 import repositories.SubcategoryRepo;
 import service.CategoryService;
 
@@ -22,10 +25,12 @@ public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepo categoryRepo;
     private final SubcategoryRepo subcategoryRepo;
+    private final MenuItemRepo menuItemRepo;
 
-    public CategoryServiceImpl(CategoryRepo categoryRepo, SubcategoryRepo subcategoryRepo) {
+    public CategoryServiceImpl(CategoryRepo categoryRepo, SubcategoryRepo subcategoryRepo, MenuItemRepo menuItemRepo) {
         this.categoryRepo = categoryRepo;
         this.subcategoryRepo = subcategoryRepo;
+        this.menuItemRepo = menuItemRepo;
     }
 
     @Override
@@ -41,6 +46,7 @@ public class CategoryServiceImpl implements CategoryService {
 
             Category category = new Category();
             category.setName(categoryRequest.getName());
+
             categoryRepo.save(category);
 
             return new SimpleResponse("Success", HttpStatus.OK);
@@ -83,16 +89,23 @@ public class CategoryServiceImpl implements CategoryService {
         return new SimpleResponse("updated", HttpStatus.OK);
     }
 
+    @Transactional
     @Override
     public SimpleResponse deleteCategory(Long categoryId) {
-        //response
-        SimpleResponse simpleResponse = new SimpleResponse();
-        simpleResponse.setMessage("The category has been deleted");
-        simpleResponse.setStatus(HttpStatus.NO_CONTENT);
-
         Category category = categoryRepo.findById(categoryId).
                 orElseThrow(()->new RuntimeException("Can't delete non-existing category"));
 
-       return simpleResponse;
+        List<Subcategory>subcategories  = category.getSubcategories();
+        for (Subcategory subcategory:subcategories)
+        {
+            for(MenuItem menuItem:subcategory.getMenuItems()){
+                menuItem.setSubcategory(null);
+                menuItemRepo.save(menuItem);
+            }
+            subcategory.getMenuItems().clear();
+        }
+        categoryRepo.delete(category);
+
+       return new SimpleResponse("successfully deleted", HttpStatus.NO_CONTENT);
     }
 }

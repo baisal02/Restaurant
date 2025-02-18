@@ -51,6 +51,8 @@ public class ChequeServiceImpl implements ChequeService {
                 .asLongStream()
                 .sum();
 
+        user.getRestaurant().addChequePrice(totalPrice);
+
         Cheque cheque = new Cheque();
         cheque.setDate(chequeRequest.getCreatedAt());
         cheque.setMenuItems(menuItems);
@@ -133,9 +135,11 @@ public class ChequeServiceImpl implements ChequeService {
        user.getCheques().remove(cheque);
        cheque.setUser(null);
 
-       List<MenuItem>menuItems = cheque.getMenuItems();
+       //no need in breaking relation, since they have manytomany relation,
+        // hibernate will break it (cutting row in third table)
+       /*List<MenuItem>menuItems = cheque.getMenuItems();
        menuItems.stream().forEach(menuItem -> {menuItem.getCheques().remove(cheque);});
-
+        */
        chequeRepo.delete(cheque);
         return new SimpleResponse("cheque has been deleted", HttpStatus.OK);
     }

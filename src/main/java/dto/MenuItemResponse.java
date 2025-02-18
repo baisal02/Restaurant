@@ -18,6 +18,10 @@ public class MenuItemResponse {
         this.isVegetarian = isVegetarian;
     }
 
+    public MenuItemResponse() {
+
+    }
+
     public Long getId() {
         return id;
     }

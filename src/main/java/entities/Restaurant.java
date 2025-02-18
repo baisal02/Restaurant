@@ -92,7 +92,7 @@ public class Restaurant {
         return service;
     }
 
-    public void setService(BigDecimal service) {
-        this.service = service;
+    public void addChequePrice(Long value) {
+        this.service = this.service.add(BigDecimal.valueOf(value));
     }
 }

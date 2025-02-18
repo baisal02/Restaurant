@@ -8,6 +8,8 @@ public class ChequeREESPONSE {
     private BigDecimal service;
     private Long GrandTotal;
 
+
+
     public Long getGrandTotal() {
         return GrandTotal;
     }

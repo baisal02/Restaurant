@@ -4,6 +4,10 @@ import java.util.List;
 
 public class SubCategoryRequest {
     private String name;
+    private List<MenuItemRequest>menuItemsRequestList;
+
+
+
 
     public List<MenuItemRequest> getMenuItemsRequestList() {
         return menuItemsRequestList;
@@ -13,7 +17,7 @@ public class SubCategoryRequest {
         this.menuItemsRequestList = menuItemsRequestList;
     }
 
-    private List<MenuItemRequest>menuItemsRequestList;
+
 
     public String getName() {
         return name;

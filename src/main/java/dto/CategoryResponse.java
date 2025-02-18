@@ -2,6 +2,7 @@ package dto;
 
 public class CategoryResponse {
     private Long id;
+    private String categoryName;
 
     public Long getId() {
         return id;
@@ -11,7 +12,6 @@ public class CategoryResponse {
         this.id = id;
     }
 
-    private String categoryName;
 
     public String getCategoryName() {
         return categoryName;

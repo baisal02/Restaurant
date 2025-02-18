@@ -9,6 +9,15 @@ public class ChequeResponse {
     private LocalDate createdAt;
     private List<MenuItemResponse>menuItemResponses;
 
+    public ChequeResponse() {
+    }
+
+    public ChequeResponse(Long chequeId, Long priceAverage, LocalDate createdAt) {
+        this.chequeId = chequeId;
+        this.priceAverage = priceAverage;
+        this.createdAt = createdAt;
+    }
+
     public Long getChequeId() {
         return chequeId;
     }
