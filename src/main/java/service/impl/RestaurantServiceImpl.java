@@ -81,9 +81,16 @@ public class RestaurantServiceImpl implements RestaurantService {
         }
         //-------------
         //preparing response
+        boolean haveOpenVac = true;
+        if(restaurant.getUserList().size()<15){
+            haveOpenVac = true;
+        }
+
+        //-------------
         RestaurantInfoResponse restaurantInfoResponse = new RestaurantInfoResponse();
         restaurantInfoResponse.setId(restaurant.getId());
         restaurantInfoResponse.setNumberOfEmployees(numberofEmps);
+        restaurantInfoResponse.setHaveOpenVacancies(haveOpenVac);
         restaurantInfoResponse.setLocation(restaurant.getLocation());
         restaurantInfoResponse.setUserResponses(userResponses);
         restaurantInfoResponse.setMenuItemResponses(menuItemResponses);

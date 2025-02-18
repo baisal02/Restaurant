@@ -181,10 +181,17 @@ public class UserServiceImpl implements UserService {
         Restaurant restaurant = restaurantRepo.findById(restaurantId).
                 orElseThrow(()->new RuntimeException("Restaurant not found"));
 
-        restaurant.getUserList().add(user);
-        user.setRestaurant(restaurant);
+        if(restaurant.getUserList().size()>15) {
+            return new SimpleResponse("Restaurant is full", HttpStatus.BAD_REQUEST);
+        }
 
-        return new SimpleResponse("User has been added to the restaurant:   "+ restaurant.getName(), HttpStatus.OK);
+        if(restaurant.getUserList().size()<15) {
+            restaurant.getUserList().add(user);
+            user.setRestaurant(restaurant);
+            return new SimpleResponse("User has been added to the restaurant: "+ restaurant.getName(), HttpStatus.OK);
+        }
+
+        return new SimpleResponse("Something went wrong", HttpStatus.BAD_REQUEST);
     }
 
     @Override
@@ -193,6 +200,9 @@ public class UserServiceImpl implements UserService {
                 orElseThrow(()->new RuntimeException("Restaurant not found"));
 
         User user = new User();
+        if(restaurant.getUserList().size()>15) {
+            return new SimpleResponse("Restaurant is full", HttpStatus.BAD_REQUEST);
+        }
         if (userRepo.existsByEmail(userRequest.getEmail())) {
             return new SimpleResponse("Email already exists", HttpStatus.BAD_REQUEST);
         }
