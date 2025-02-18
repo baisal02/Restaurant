@@ -1,9 +1,6 @@
 package service.impl;
 
-import dto.MenuItemRequest;
-import dto.SimpleResponse;
-import dto.SubCategoryRequest;
-import dto.SubCategoryResponse;
+import dto.*;
 import entities.Category;
 import entities.MenuItem;
 import entities.Subcategory;
@@ -126,5 +123,24 @@ public class SubCategoryServiceImpl implements SubCategoryService {
         }
 
         return subCategoryResponseList;
+    }
+
+    @Override
+    public List<CategorySortResponse> getSorttedSubCategories() {
+        List<Category> categories = categoryRepo.findAll();
+        List<CategorySortResponse> finalList = new ArrayList<>();
+
+        for (Category category : categories) {
+            List<SubCategoryResponse>subCategoriesResponseList = new ArrayList<>();
+            for(Subcategory subcategory:category.getSubcategories()){
+                subCategoriesResponseList.add(new SubCategoryResponse(
+                        subcategory.getId(),
+                        subcategory.getName()
+                ));
+            }
+            finalList.add(new CategorySortResponse(category.getName(), subCategoriesResponseList));
+        }
+
+        return finalList;
     }
 }
