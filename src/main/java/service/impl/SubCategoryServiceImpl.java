@@ -52,7 +52,6 @@ public class SubCategoryServiceImpl implements SubCategoryService {
     }
 
 
-
     @Override
     public SimpleResponse updateSubCategory(SubCategoryRequest subCategoryRequest, Long subCategoryId) {
 
@@ -77,7 +76,6 @@ public class SubCategoryServiceImpl implements SubCategoryService {
 
         return new SimpleResponse("Success", HttpStatus.OK);
     }
-
 
 
     @Override
@@ -106,8 +104,8 @@ public class SubCategoryServiceImpl implements SubCategoryService {
 
     @Override
     public List<SubCategoryResponse> getSubCategories(Long categoryId) {
-        Category category = categoryRepo.findById(categoryId).orElseThrow(()->new RuntimeException("the Category doesn't exist"));
-        List<Subcategory>subcategoryList = category.getSubcategories();
+        Category category = categoryRepo.findById(categoryId).orElseThrow(() -> new RuntimeException("the Category doesn't exist"));
+        List<Subcategory> subcategoryList = category.getSubcategories();
 
         List<SubCategoryResponse> subCategoryResponseList = new ArrayList<>();
 
@@ -131,8 +129,8 @@ public class SubCategoryServiceImpl implements SubCategoryService {
         List<CategorySortResponse> finalList = new ArrayList<>();
 
         for (Category category : categories) {
-            List<SubCategoryResponse>subCategoriesResponseList = new ArrayList<>();
-            for(Subcategory subcategory:category.getSubcategories()){
+            List<SubCategoryResponse> subCategoriesResponseList = new ArrayList<>();
+            for (Subcategory subcategory : category.getSubcategories()) {
                 subCategoriesResponseList.add(new SubCategoryResponse(
                         subcategory.getId(),
                         subcategory.getName()
@@ -140,7 +138,6 @@ public class SubCategoryServiceImpl implements SubCategoryService {
             }
             finalList.add(new CategorySortResponse(category.getName(), subCategoriesResponseList));
         }
-
         return finalList;
     }
 }

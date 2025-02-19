@@ -29,9 +29,12 @@ public class MenuItemServiceImpl implements MenuItemService {
 
     @Override
     public SimpleResponse addMenuItem(MenuItemRequest menuItemRequest, Long restaurantId) {
+
         Restaurant restaurant = restaurantRepo.
                 findById(restaurantId).
                 orElseThrow(()->new RuntimeException("Restaurant not found"));
+
+
         if (menuItemRequest.getPrice()>=0) {
             MenuItem menuItem = new MenuItem();
             menuItem.setName(menuItemRequest.getName());
