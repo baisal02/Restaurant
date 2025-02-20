@@ -4,13 +4,13 @@ import java.math.BigInteger;
 
 public class TotalAmountOneDay {
 
-    private Long totalAmount;
+    private int totalAmount;
 
-    public Long getTotalAmount() {
+    public int getTotalAmount() {
         return totalAmount;
     }
 
-    public void setTotalAmount(Long totalAmount) {
+    public void setTotalAmount(int totalAmount) {
         this.totalAmount = totalAmount;
     }
 }

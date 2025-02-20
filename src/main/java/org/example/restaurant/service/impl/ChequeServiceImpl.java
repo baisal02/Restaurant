@@ -161,11 +161,13 @@ public class ChequeServiceImpl implements ChequeService {
     public TotalAmountOneDay getTotalAmountOneDay(LocalDate date) {
         AtomicReference<Long> totalamount = new AtomicReference<>(0l);
         List<Cheque>cheques = chequeRepo.findAll();
-        cheques.stream().forEach(cheque -> {if(cheque.getDate().equals(date)) {
-            totalamount.updateAndGet(v -> v + cheque.getPriceAverage());
-        }});
+        for(Cheque cheque:cheques){
+            if(cheque.getDate().equals(date)){
+            cheque.getMenuItems().forEach(menuItem -> {totalamount.set(totalamount.get()+menuItem.getPrice());});
+            }
+        }
         TotalAmountOneDay totalAmountOneDay = new TotalAmountOneDay();
-        totalAmountOneDay.setTotalAmount(totalamount.get());
+        totalAmountOneDay.setTotalAmount(totalamount.get().intValue());
         return totalAmountOneDay;
     }
 }

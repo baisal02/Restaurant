@@ -4,6 +4,7 @@ import org.example.restaurant.dto.ChequeREESPONSE;
 import org.example.restaurant.dto.ChequeRequest;
 import org.example.restaurant.dto.SimpleResponse;
 import org.example.restaurant.dto.TotalAmountOneDay;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import org.example.restaurant.service.ChequeService;
 
@@ -39,9 +40,11 @@ public class ChequApi {
         return chequeService.deleteCheque(id);
     }
 
-    @GetMapping("/total-amount-of-a-day")
-    public TotalAmountOneDay getTotalAmountOfADay(@RequestParam LocalDate date) {
+
+    @GetMapping("/total-amount-of-a-day/{date}")
+    public TotalAmountOneDay getTotalAmountOfADay(@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         return chequeService.getTotalAmountOneDay(date);
     }
+
 
 }
